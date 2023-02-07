@@ -431,7 +431,6 @@ function onSubmit(e){
     const li=document.createElement('li');
     li.appendChild(document.createTextNode(`${nameInput.value}  :  ${emailInput.value}`));
 
-    detail=
     userList.appendChild(li);
 
     // Clear the fields
@@ -448,3 +447,4 @@ function saveToLocalStorage(e){
   localStorage.setItem('email',email);
 }
 // Check for git
+// Final commit
