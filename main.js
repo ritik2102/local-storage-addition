@@ -418,8 +418,41 @@ const userList=document.querySelector('#users');
 
 let details=[];
 
+// Initilising arrays to store the names and emails
+let names=[];
+let emails=[];
+
 myForm.addEventListener('submit',onSubmit);
 
+// This function is called upon the start of application automatically as we have called it below
+function init(){
+  // If the local storage does not contain any data, we return
+  if(!localStorage.getItem("data"))
+    return;
+  
+    // We parse the the object by destringifying it using the parse function
+  let my_obj_deserialized=JSON.parse(localStorage.getItem("data"));
+  // console.log(my_obj_deserialized);
+
+  // Destructure the object to get the array of names and emails
+  const{nameValues,emailValues}  = my_obj_deserialized;
+  names=nameValues;
+  emails=emailValues;
+  console.log(nameValues,emailValues);
+
+  // Loop through the names and emails and form the li tags for each pair
+  for(let i=0;i<nameValues.length;i++){
+    // Creating li
+    const li=document.createElement('li');
+    // Appending the text inside the li 
+    li.appendChild(document.createTextNode(`${nameValues[i]}  :  ${emailValues[i]}`));
+    // Adding the li to the userList
+    userList.appendChild(li);
+  }
+}
+init();
+
+// onSubmit function
 function onSubmit(e){
   e.preventDefault();
 
@@ -439,12 +472,37 @@ function onSubmit(e){
   }
 }
 
+// Called on form submission
 function saveToLocalStorage(e){
+  
   e.preventDefault();
+  // On submission, we push the values of names and email into the respective arrays
   const name=nameInput.value;
   const email=emailInput.value;
-  localStorage.setItem('name',name);
-  localStorage.setItem('email',email);
+  names.push(name);
+  emails.push(email);
+
+  const data={
+    "nameValues":names,
+    "emailValues":emails,
+  }
+
+  // Convert the object into string format and store it into local storage
+  let data_serialized=JSON.stringify(data);
+  localStorage.setItem('data',data_serialized);
+  
+  // let my_obj_deserialized=JSON.parse(localStorage.getItem("data"));
+  // console.log(my_obj_deserialized);
 }
+
+// function saveToLocalStorage(e){
+  
+//   e.preventDefault();
+//   const name=nameInput.value;
+//   const email=emailInput.value;
+
+//   localStorage.setItem('name',name);
+//   localStorage.setItem('email',email);
+// }
 // Check for git
 // Final commit
